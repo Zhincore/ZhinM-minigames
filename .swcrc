@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "env": {
+    "targets": {
+      "node": "16"
+    }
+  },
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "baseUrl": "./",
+    "paths": {},
+    "externalHelpers": true,
+    "loose": true,
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "$elements/*": [
+        "components/elements/*"
+      ],
+      "$parts/*": [
+        "components/parts/*"
+      ],
+      "~common/*": [
+        "../common/*"
+      ]
+    },
+    "baseUrl": "./",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "types": [
+      "vite/client"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: Chalet;
+    src: url("./assets/ChaletLondonNineteenSixty.ttf");
+    font-weight: normal;
+  }
+
+  html {
+    font-family: Chalet, system-ui, sans-serif;
+    font-size: 20px;
+    user-select: none;
+  }
+}
