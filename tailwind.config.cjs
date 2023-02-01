@@ -12,6 +12,10 @@ module.exports = {
           light: "#3773be",
         },
       },
+      fontFamily: {
+        sans: "ChaletLondon",
+        header: "ChaletComprime",
+      },
       borderWidth: {
         3: "3px",
         6: "6px",
