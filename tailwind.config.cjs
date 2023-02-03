@@ -8,8 +8,8 @@ module.exports = {
     extend: {
       colors: {
         accent: {
-          DEFAULT: "#113b65",
-          light: "#3773be",
+          DEFAULT: "#16365c",
+          light: "#3175bf",
         },
       },
       fontFamily: {
@@ -19,6 +19,9 @@ module.exports = {
       borderWidth: {
         3: "3px",
         6: "6px",
+      },
+      rotate: {
+        135: "135deg",
       },
     },
   },

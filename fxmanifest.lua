@@ -14,3 +14,7 @@ end
 files {
   "dist/nui/*"
 }
+
+client_scripts {
+  "dist/client/client.js"
+}

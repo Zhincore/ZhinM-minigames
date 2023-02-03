@@ -281,6 +281,16 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@citizenfx/client@^2.0.6253-1":
+  version "2.0.6253-1"
+  resolved "https://registry.yarnpkg.com/@citizenfx/client/-/client-2.0.6253-1.tgz#acaba5289619ac58e699004eb3f517cc21aa95d4"
+  integrity sha512-fpbaWj2ZbcBSHsv72aBFPkDG9mVp5P6VS+N6hp352mGFt25Sm1d5BMT/dqxHSHwkb3rPtKP35VWkX2vR9tB7Fw==
+
+"@citizenfx/server@^2.0.6253-1":
+  version "2.0.6253-1"
+  resolved "https://registry.yarnpkg.com/@citizenfx/server/-/server-2.0.6253-1.tgz#c92a8b7852048917cee7500bca33f23501f20d78"
+  integrity sha512-suzGr+sSyHqLbIDG83Xbphhb/XqlnjNHRcX7NtFkRLy6rF3Au8f86U0EjQkK3BsyDKLCJYL1omyOakmdkUaOlQ==
+
 "@esbuild/android-arm64@0.16.17":
   version "0.16.17"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.16.17.tgz#cf91e86df127aa3d141744edafcba0abdc577d23"
@@ -405,6 +415,18 @@
     js-yaml "^4.1.0"
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
+
+"@fortawesome/fontawesome-common-types@6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.2.1.tgz#411e02a820744d3f7e0d8d9df9d82b471beaa073"
+  integrity sha512-Sz07mnQrTekFWLz5BMjOzHl/+NooTdW8F8kDQxjWwbpOJcnoSg4vUDng8d/WR1wOxM0O+CY9Zw0nR054riNYtQ==
+
+"@fortawesome/free-solid-svg-icons@^6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-6.2.1.tgz#2290ea5adcf1537cbd0c43de6feb38af02141d27"
+  integrity sha512-oKuqrP5jbfEPJWTij4sM+/RvgX+RMFwx3QZCZcK9PrBDgxC35zuc7AOFsyMjMd/PIFPeB2JxyqDr5zs/DZFPPw==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "6.2.1"
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
@@ -3508,6 +3530,11 @@ slash@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-4.0.0.tgz#2422372176c4c6c5addb5e2ada885af984b396a7"
   integrity sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==
+
+solid-fa@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/solid-fa/-/solid-fa-0.1.0.tgz#5c9b42441e7cfcb6bd2fe9bdb297e44c8dec9120"
+  integrity sha512-5DSFt0aibr5FS8jssadXKmG2NEubjuvxxqrJDh8ingYNAFP9dextiG0w0Wn+ssdrUUEwDxIAN31g2OMBQI7p+A==
 
 solid-js@^1.6.9:
   version "1.6.10"

@@ -13,6 +13,7 @@
     font-family: "ChaletComprime";
     src: url("./assets/ChaletComprimeCologneSixty.ttf");
     font-weight: normal;
+    size-adjust: 140%;
   }
 
   html {
