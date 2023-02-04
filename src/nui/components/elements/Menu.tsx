@@ -1,4 +1,5 @@
-import { createSelector, createSignal, Component, For, createMemo, onCleanup } from "solid-js";
+import { createSelector, createSignal, Component, For, createMemo, onCleanup, Show, createEffect, on } from "solid-js";
+import { api } from "$lib/API";
 import { IMenuItem, MenuItem } from "./MenuItem";
 
 interface MenuProps {
@@ -12,11 +13,13 @@ export const Menu: Component<MenuProps> = (props) => {
   const requestFocus = () => (props.onFocusRequest ? props.onFocusRequest() : null);
 
   const selectableItems = createMemo(() => props.items.filter((item) => !!item.name));
-  const [focusedItem, setFocusedItem] = createSignal(-1);
+  const [focusedItem, setFocusedItem] = createSignal(props.items.findIndex(canItemFocus));
   const isItemFocused = createSelector<number, IMenuItem>(
     focusedItem,
     (item, i) => item == props.items[i] && canItemFocus(item)
   );
+
+  createEffect(on(focusedItem, () => api.playSound("UpDown"), { defer: true }));
 
   const moveFocus = (dir: 1 | -1) => {
     const items = selectableItems();
@@ -29,7 +32,6 @@ export const Menu: Component<MenuProps> = (props) => {
       return i;
     });
   };
-  moveFocus(1);
 
   const onKeyDown = (ev: KeyboardEvent) => {
     if (!props.isFocused) return;
@@ -50,7 +52,7 @@ export const Menu: Component<MenuProps> = (props) => {
   });
 
   return (
-    <ul class="mx-0.5 w-72">
+    <ul class="mx-0.5 w-96">
       <For each={props.items}>
         {(item, i) => (
           <MenuItem
@@ -60,6 +62,9 @@ export const Menu: Component<MenuProps> = (props) => {
           />
         )}
       </For>
+      <Show when={props.items[focusedItem()]?.description}>
+        <MenuItem isText label={props.items[focusedItem()].description} borderTop />
+      </Show>
     </ul>
   );
 };

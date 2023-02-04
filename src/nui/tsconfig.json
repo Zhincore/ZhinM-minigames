@@ -8,6 +8,9 @@
       "$parts/*": [
         "components/parts/*"
       ],
+      "$lib/*": [
+        "lib/*"
+      ],
       "~common/*": [
         "../common/*"
       ]

@@ -1,31 +1,34 @@
-import { JSX, Component, Show, createSignal, onCleanup } from "solid-js";
+import { JSX, Component, Show, createSignal, onCleanup, on, createEffect } from "solid-js";
 import { omitProps } from "solid-use";
 import { twMerge } from "tailwind-merge";
+import { api } from "$lib/API";
 import { Replace } from "~common/utils";
 import { Chevron } from "./Chevron";
 
-interface IMenuItemBase {
-  color?: "primary" | string;
+export interface IMenuItemBase {
+  color?: "primary" | "danger";
+  label?: string;
   right?: JSX.Element;
   borderTop?: boolean;
   borderBottom?: boolean;
 
   name?: never;
-  label?: never;
+  description?: never;
   isTitle?: false;
   isText?: false;
   isPlayer?: false;
   options?: never;
-  readonly?: never;
+  onActivate?: never;
+  onChosen?: never;
 }
 
-type IMenuItemSlot = IMenuItemBase;
+export type IMenuItemSlot = IMenuItemBase;
 
-type IMenuItemPlayer = Replace<IMenuItemBase, { label: string; isPlayer: true }>;
+export type IMenuItemPlayer = Replace<IMenuItemBase, { label: string; isPlayer: true }>;
 
-type IMenuItemText = Replace<IMenuItemBase, { label: string; isText: true }>;
+export type IMenuItemText = Replace<IMenuItemBase, { label: string; isText: true }>;
 
-type IMenuItemTitle = Replace<
+export type IMenuItemTitle = Replace<
   IMenuItemBase,
   {
     label: string;
@@ -33,17 +36,33 @@ type IMenuItemTitle = Replace<
   }
 >;
 
-type IMenuItemButton = Replace<
+export type IMenuItemButton = Replace<
   IMenuItemBase,
   {
     name: string;
     label: string;
-    readonly?: boolean;
-    options?: string[];
+    description?: string;
+    onActivate?: () => void;
   }
 >;
 
-export type IMenuItem = IMenuItemText | IMenuItemPlayer | IMenuItemTitle | IMenuItemButton | IMenuItemSlot;
+export type IMenuItemList = Replace<
+  IMenuItemButton,
+  {
+    options: string[];
+    onActivate?: never;
+    onChosen?: (index: number) => void;
+  }
+>;
+
+export type IMenuItem =
+  | IMenuItemSlot
+  | IMenuItemText
+  | IMenuItemPlayer
+  | IMenuItemTitle
+  | IMenuItemButton
+  | IMenuItemList;
+
 type MenuItemProps = IMenuItem & JSX.HTMLAttributes<HTMLLIElement> & { isFocused?: boolean };
 
 export const MenuItem: Component<MenuItemProps> = (props) => {
@@ -59,19 +78,38 @@ export const MenuItem: Component<MenuItemProps> = (props) => {
     "isText",
     "isPlayer",
     "options",
-    "readonly",
   ]);
   const [chosen, setChosen] = createSignal(0);
 
+  createEffect(
+    on(
+      chosen,
+      () => {
+        api.playSound("LeftRight");
+        props.onChosen?.(chosen());
+      },
+      { defer: true }
+    )
+  );
+
+  const activate = () => {
+    api.playSound("Select");
+    props.onActivate?.();
+  };
+
   const onKeyDown = (ev: KeyboardEvent) => {
-    if (!props.isFocused || !props.options) return;
-    const itemCount = props.options.length;
+    if (!props.isFocused) return;
+    const itemCount = props.options?.length;
     switch (ev.key) {
       case "ArrowLeft":
-        setChosen((i) => (itemCount + i - 1) % itemCount);
+        if (itemCount) setChosen((i) => (itemCount + i - 1) % itemCount);
         break;
       case "ArrowRight":
-        setChosen((i) => (i + 1) % itemCount);
+        if (itemCount) setChosen((i) => (i + 1) % itemCount);
+        break;
+      case "Enter":
+      case " ":
+        activate();
         break;
     }
   };
@@ -84,6 +122,7 @@ export const MenuItem: Component<MenuItemProps> = (props) => {
 
   return (
     <li
+      onClick={activate}
       {...htmlProps}
       class={twMerge(
         "my-1 flex w-full justify-between bg-black bg-opacity-60 px-2 py-1",
@@ -94,11 +133,10 @@ export const MenuItem: Component<MenuItemProps> = (props) => {
         props.borderBottom && "border-b-2 border-b-white",
         props.name && "cursor-pointer",
         !props.label && "after:invisible after:inline-block after:w-0 after:content-['-']",
-        props.color == "primary" && "bg-accent",
+        { primary: "bg-accent", danger: "bg-red-800" }[props.color],
         // State:
         props.isFocused && "bg-white bg-opacity-90 text-black"
       )}
-      style={{ "background-color": props.color == "primary" ? undefined : props.color }}
     >
       <span class={props.isPlayer ? "font-header" : ""}>{props.label}</span>
 
@@ -107,11 +145,11 @@ export const MenuItem: Component<MenuItemProps> = (props) => {
       </Show>
       <Show when={props.options}>
         <Show when={props.isFocused} fallback={<span>{props.options[chosen()]}</span>}>
-          <div>
+          <span>
             <Chevron direction="left" />
             {props.options[chosen()]}
             <Chevron direction="right" />
-          </div>
+          </span>
         </Show>
       </Show>
     </li>

@@ -1,47 +1,30 @@
-/* @refresh reload */
-import { Component } from "solid-js";
-import { Menu } from "$elements/Menu";
-import { Header } from "$elements/Header";
+import { Component, onCleanup } from "solid-js";
+import { Route, Routes, useNavigate } from "@solidjs/router";
+import { LeaveConfirm } from "screens/LeaveConfirm";
+import { api } from "./lib/API";
+import { Lobby } from "./screens/Lobby";
 
 export const App: Component = () => {
-  return (
-    <div>
-      <div class="w-full">
-        <Header as="h1" class="font-header text-4xl">
-          Header for Care ()
-        </Header>
-        <Header>Text text job description something like text and stuff</Header>
-      </div>
+  const navigate = useNavigate();
 
-      <div class="flex items-start">
-        <Menu
-          isFocused
-          items={[
-            { label: "Settings", isTitle: true },
-            { label: "Matchmaking", name: "matchmaking" },
-            { label: "Bebeob", name: "Bebeob" },
-            { label: "Invite", name: "Invite" },
-            { label: "ripthis", name: "ripthis" },
-            { label: "Enabled", options: ["yes", "no"], name: "enabled" },
-            { label: "Play", name: "play", color: "primary" },
-            {
-              label: "Something something text select players lobby game settings choose a race.",
-              borderTop: true,
-              isText: true,
-            },
-          ]}
-        />
-        <Menu
-          items={[
-            { label: "Players 2/5", isTitle: true },
-            { label: "Zhincore", right: "PRO", isPlayer: true },
-            { label: "Bastakka", isPlayer: true },
-            {},
-            {},
-            {},
-          ]}
-        />
-      </div>
-    </div>
+  const onShow = (screen: string) => "/" + navigate(screen);
+  const onHide = () => onShow("");
+
+  api.on("show", onShow);
+  api.on("hide", onHide);
+
+  onCleanup(() => {
+    api.off("show", onShow);
+    api.off("hide", onHide);
+  });
+
+  return (
+    <Routes>
+      <Route path="/" element={<></>} />
+      <Route path="/lobby">
+        <Route path="/" component={Lobby} />
+        <Route path="/leave" component={LeaveConfirm} />
+      </Route>
+    </Routes>
   );
 };

@@ -1,6 +1,7 @@
 /* @refresh reload */
 import "./index.css";
 import { render } from "solid-js/web";
+import { Router } from "@solidjs/router";
 import { App } from "./App";
 
 if (import.meta.env.DEV) {
@@ -14,4 +15,11 @@ if (import.meta.env.DEV) {
   }
 }
 
-render(() => App({}), document.body);
+render(
+  () => (
+    <Router>
+      <App />
+    </Router>
+  ),
+  document.body
+);

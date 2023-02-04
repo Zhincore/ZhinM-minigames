@@ -15,6 +15,4 @@ files {
   "dist/nui/*"
 }
 
-client_scripts {
-  "dist/client/client.js"
-}
+client_script "dist/client.js"
