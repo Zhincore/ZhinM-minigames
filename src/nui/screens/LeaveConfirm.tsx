@@ -1,13 +1,11 @@
 import { Component, onCleanup } from "solid-js";
-import { useNavigate } from "@solidjs/router";
 import { api } from "$lib/API";
 import { Menu } from "$elements/Menu";
+import { Header } from "$elements/Header";
 
 export const LeaveConfirm: Component = () => {
-  const navigate = useNavigate();
-
   const goBack = () => {
-    navigate("..");
+    window.history.back();
     api.playSound("Back");
   };
 
@@ -22,7 +20,7 @@ export const LeaveConfirm: Component = () => {
 
   return (
     <div>
-      <header>Do you really want to leave the lobby?</header>
+      <Header>Do you really want to leave the lobby?</Header>
       <Menu
         isFocused
         items={[

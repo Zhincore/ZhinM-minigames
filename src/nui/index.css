@@ -5,19 +5,17 @@
 @layer base {
   @font-face {
     font-family: "ChaletLondon";
-    src: url("./assets/ChaletLondonNineteenSixty.ttf");
-    font-weight: normal;
+    src: url("https://runtime.fivem.net/temp/ChaletLondonNineteenSixty.otf");
   }
 
   @font-face {
     font-family: "ChaletComprime";
-    src: url("./assets/ChaletComprimeCologneSixty.ttf");
-    font-weight: normal;
-    size-adjust: 140%;
+    src: url("https://runtime.fivem.net/temp/chaletcomprime-colognesixty-webfont.ttf");
+    size-adjust: 130%;
   }
 
   html {
-    font-size: 20px;
+    font-size: 21px;
     user-select: none;
   }
 }

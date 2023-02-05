@@ -1,6 +1,7 @@
 import { createSelector, createSignal, Component, For, createMemo, onCleanup, Show, createEffect, on } from "solid-js";
 import { api } from "$lib/API";
-import { IMenuItem, MenuItem } from "./MenuItem";
+import { IMenuItem } from "~common/IMenuItem";
+import { MenuItem } from "./MenuItem";
 
 interface MenuProps {
   isFocused?: boolean;
@@ -52,7 +53,7 @@ export const Menu: Component<MenuProps> = (props) => {
   });
 
   return (
-    <ul class="mx-0.5 w-96">
+    <ul class="mx-0.5 w-full">
       <For each={props.items}>
         {(item, i) => (
           <MenuItem

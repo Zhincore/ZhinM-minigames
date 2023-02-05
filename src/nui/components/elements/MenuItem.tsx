@@ -2,66 +2,8 @@ import { JSX, Component, Show, createSignal, onCleanup, on, createEffect } from 
 import { omitProps } from "solid-use";
 import { twMerge } from "tailwind-merge";
 import { api } from "$lib/API";
-import { Replace } from "~common/utils";
+import { IMenuItem } from "~common/IMenuItem";
 import { Chevron } from "./Chevron";
-
-export interface IMenuItemBase {
-  color?: "primary" | "danger";
-  label?: string;
-  right?: JSX.Element;
-  borderTop?: boolean;
-  borderBottom?: boolean;
-
-  name?: never;
-  description?: never;
-  isTitle?: false;
-  isText?: false;
-  isPlayer?: false;
-  options?: never;
-  onActivate?: never;
-  onChosen?: never;
-}
-
-export type IMenuItemSlot = IMenuItemBase;
-
-export type IMenuItemPlayer = Replace<IMenuItemBase, { label: string; isPlayer: true }>;
-
-export type IMenuItemText = Replace<IMenuItemBase, { label: string; isText: true }>;
-
-export type IMenuItemTitle = Replace<
-  IMenuItemBase,
-  {
-    label: string;
-    isTitle: true;
-  }
->;
-
-export type IMenuItemButton = Replace<
-  IMenuItemBase,
-  {
-    name: string;
-    label: string;
-    description?: string;
-    onActivate?: () => void;
-  }
->;
-
-export type IMenuItemList = Replace<
-  IMenuItemButton,
-  {
-    options: string[];
-    onActivate?: never;
-    onChosen?: (index: number) => void;
-  }
->;
-
-export type IMenuItem =
-  | IMenuItemSlot
-  | IMenuItemText
-  | IMenuItemPlayer
-  | IMenuItemTitle
-  | IMenuItemButton
-  | IMenuItemList;
 
 type MenuItemProps = IMenuItem & JSX.HTMLAttributes<HTMLLIElement> & { isFocused?: boolean };
 
@@ -93,6 +35,7 @@ export const MenuItem: Component<MenuItemProps> = (props) => {
   );
 
   const activate = () => {
+    if (!props.isFocused) return;
     api.playSound("Select");
     props.onActivate?.();
   };
@@ -125,10 +68,11 @@ export const MenuItem: Component<MenuItemProps> = (props) => {
       onClick={activate}
       {...htmlProps}
       class={twMerge(
-        "my-1 flex w-full justify-between bg-black bg-opacity-60 px-2 py-1",
+        "relative my-1 flex w-full justify-between bg-black bg-opacity-60 px-2 py-1",
         props.isTitle && "justify-center bg-accent bg-opacity-90 uppercase",
         props.isText && "leading-tight",
         props.isPlayer && "border-l-6 border-l-accent-light bg-accent",
+        props.image && "h-44 bg-cover bg-center",
         props.borderTop && "border-t-2 border-t-white",
         props.borderBottom && "border-b-2 border-b-white",
         props.name && "cursor-pointer",
@@ -137,8 +81,16 @@ export const MenuItem: Component<MenuItemProps> = (props) => {
         // State:
         props.isFocused && "bg-white bg-opacity-90 text-black"
       )}
+      style={{ "background-image": props.image ? `url(${props.image})` : undefined }}
     >
-      <span class={props.isPlayer ? "font-header" : ""}>{props.label}</span>
+      <span
+        class={twMerge(
+          props.isPlayer && "font-header",
+          props.image && "absolute bottom-0 left-0 w-full bg-black bg-opacity-60 px-2 py-1 text-right text-xl"
+        )}
+      >
+        {props.label}
+      </span>
 
       <Show when={props.right}>
         <span>{props.right}</span>
